@@ -224,9 +224,49 @@ function love.draw()
     love.graphics.setColor(0.8, 0.1, 0.1)
     love.graphics.rectangle("fill", (food.x-1) * tile_size, (food.y-1) * tile_size, tile_size, tile_size)
 
-    for _,coord in ipairs(snake) do
+    local head = snake[1]
+    love.graphics.setColor(0.1, 0.8, 0.1)
+    love.graphics.rectangle("fill", 1 + (head.x-1) * tile_size, 1 + (head.y-1) * tile_size, tile_size - 2, tile_size - 2)
+
+    local dec = 8
+    local add = dec/2
+    for i=2, #snake do
+        local a = snake[i-1]
+        local b = snake[i]
+
         love.graphics.setColor(0.1, 0.8, 0.1)
-        love.graphics.rectangle("fill", (coord.x-1) * tile_size, (coord.y-1) * tile_size, tile_size, tile_size)
+        local ax, ay = (a.x-1) * tile_size, (a.y-1) * tile_size
+        local bx, by = (b.x-1) * tile_size, (b.y-1) * tile_size
+
+        if ax == bx then
+            if ay < by then
+                love.graphics.rectangle("fill", ax + add, ay + add, tile_size - dec, (tile_size * 2) - dec)
+            else
+                love.graphics.rectangle("fill", bx + add, by + add, tile_size - dec, (tile_size * 2) - dec)
+            end
+        else
+            if ax < bx then
+                love.graphics.rectangle("fill", ax + add, ay + add, (tile_size * 2) - dec, tile_size - dec)
+            else
+                love.graphics.rectangle("fill", bx + add, by + add, (tile_size * 2) - dec, tile_size - dec)
+            end
+        end
+
+        -- [a][-][b][-]
+        -- [-][-][-][-]
+
+        -- [b][-][a][-]
+        -- [-][-][-][-]
+
+        -- [a][-]
+        -- [-][-]
+        -- [b][-]
+        -- [-][-]
+
+        -- [b][-]
+        -- [-][-]
+        -- [a][-]
+        -- [-][-]
     end
 
     if lose then
