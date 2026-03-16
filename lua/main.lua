@@ -172,7 +172,10 @@ local function spawn_first_empty_tile_food()
     return false
 end
 
+local font
 function love.load()
+    font = love.graphics.newFont("Aileron-Bold.otf", 28)
+
     reset()
     love.graphics.setBackgroundColor(0.1, 0.1, 0.1)
 end
@@ -209,9 +212,11 @@ function love.update(dt)
 end
 
 function love.draw()
-    love.graphics.setColor(1, 1, 1)
-    love.graphics.print(tostring(#snake_move_stack), 10, 10)
-    love.graphics.print("Food at: " .. food.x .. " x " .. food.y, 10, 40)
+    love.graphics.setFont(font)
+
+    -- love.graphics.setColor(1, 1, 1)
+    -- love.graphics.print(tostring(#snake_move_stack), 10, 10)
+    -- love.graphics.print("Food at: " .. food.x .. " x " .. food.y, 10, 40)
 
     local sw = love.graphics.getWidth()
     local tile_size = sw/grid_count
@@ -229,7 +234,7 @@ function love.draw()
         love.graphics.rectangle("fill", 0, 0, sw, sw)
 
         love.graphics.setColor(0.1, 0.1, 0.1)
-        love.graphics.printf("Point: " .. #snake - 3 .. "\nPress SPACE", 0, sw/2, sw, "center")
+        love.graphics.printf("Point: " .. #snake - 3 .. "\nPress SPACE", 0, sw/2 - 28, sw, "center")
     end
 end
 
